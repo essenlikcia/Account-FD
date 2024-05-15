@@ -1,7 +1,7 @@
 package com.account.account.service;
 
 import com.account.account.dto.AccountDTO;
-import com.account.account.dto.AccountDTOConverter;
+import com.account.account.dto.converter.AccountDTOConverter;
 import com.account.account.dto.createAccountRequest;
 import com.account.account.model.Account;
 import com.account.account.model.Customer;
@@ -17,16 +17,13 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final CustomerService customerService;
-    private final TransactionService transactionService;
     private final AccountDTOConverter converter;
 
     public AccountService(AccountRepository accountRepository,
                           CustomerService customerService,
-                          TransactionService transactionService,
                           AccountDTOConverter converter) {
         this.accountRepository = accountRepository;
         this.customerService = customerService;
-        this.transactionService = transactionService;
         this.converter = converter;
     }
 
@@ -39,7 +36,7 @@ public class AccountService {
                 LocalDateTime.now());
 
         if (createAccountRequest.getInitialCredit().compareTo(BigDecimal.ZERO) > 0) {
-            Transaction transaction = transactionService.initiateMoney(account, createAccountRequest.getInitialCredit());
+            Transaction transaction = new Transaction(createAccountRequest.getInitialCredit(), account);
             account.getTransaction().add(transaction);
         }
 

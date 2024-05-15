@@ -11,15 +11,15 @@ data class Account(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    val id: String = "",
+    val id: String? = null,
     val balance: BigDecimal? = BigDecimal.ZERO,
-    val creationDate: LocalDateTime,
+    val creationDate: LocalDateTime = LocalDateTime.now(),
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "customer_id", nullable = false)
-    val customer: Customer?,
+    val customer: Customer? = null,
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     val transaction: Set<Transaction> = HashSet()
 ) {
 

@@ -10,14 +10,14 @@ data class Transaction(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    val id: String?,
+    val id: String? = null,
     val transactionType: TransactionType? = TransactionType.INITIAL,
-    val amount: BigDecimal?,
-    val transactionDate: LocalDateTime?,
+    val amount: BigDecimal? = null,
+    val transactionDate: LocalDateTime? = null,
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id", nullable = false)
-    val account: Account
+    val account: Account? = null
 
 ) {
     constructor(amount: BigDecimal, account: Account) : this(

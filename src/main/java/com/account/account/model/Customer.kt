@@ -8,13 +8,13 @@ data class Customer(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    val id: String?,
+    val id: String? = null,
 
-    val name: String?,
-    val surname: String?,
+    val name: String? = null,
+    val surname: String? = null,
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    val Accounts: Set<Account>?
+    val accounts: Set<Account>? = HashSet()
 ) {
     constructor(name: String, surname: String) : this("", name, surname, HashSet())
 
@@ -27,7 +27,7 @@ data class Customer(
         if (id != other.id) return false
         if (name != other.name) return false
         if (surname != other.surname) return false
-        if (Accounts != other.Accounts) return false
+        if (accounts != other.accounts) return false
 
         return true
     }
