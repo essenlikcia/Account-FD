@@ -53,6 +53,5 @@ data class Transaction(
 }
 
 enum class TransactionType {
-    INITIAL,
-    TRANSFER
+    INITIAL, TRANSFER
 }
